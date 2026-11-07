@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nexora</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="characters.css">
+</head>
+<body>
+<div class="app">
+  <header class="titlebar" data-tauri-drag-region>
+    <img src="logo-big.png" alt="" width="30" height="30" class="logo" data-tauri-drag-region>
+    <span class="tname" id="brand" data-tauri-drag-region>NEXORA</span>
+    <span class="tsep" data-tauri-drag-region></span>
+    <span class="ttag" data-tauri-drag-region>Локальный ИИ-агент для работы и автоматизации</span>
+    <span class="sp" data-tauri-drag-region></span>
+    <span class="wc2">
+      <button id="wMin" aria-label="Свернуть" title="Свернуть">&#8212;</button>
+      <button id="wMax" aria-label="Развернуть" title="Развернуть">&#9633;</button>
+      <button id="wClose" class="x" aria-label="Закрыть" title="Закрыть">&#10005;</button>
+    </span>
+  </header>
+
+  <div class="shell">
+    <aside class="side">
+      <nav id="nav" aria-label="Разделы">
+        <button data-view="chat"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="3"/><path d="M8 21l3-4M8 9h8M8 12h5"/></svg>Чат / Агент</button>
+        <button data-view="chats"><svg viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4zM8 9h8M8 12h5"/></svg>Чаты</button>
+        <button data-view="models"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg>Модели</button>
+        <button data-view="plugins"><svg viewBox="0 0 24 24"><path d="M10 3h4v3a2 2 0 104 0V3h3v6h-3a2 2 0 100 4h3v8h-6v-3a2 2 0 10-4 0v3H4v-8h3a2 2 0 100-4H4V3z"/></svg>Плагины</button>
+        <button data-view="auto"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Автоматизация</button>
+        <button data-view="projects"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Проекты</button>
+        <button data-view="files"><svg viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6zM14 3v5h5M9 13h6M9 17h6"/></svg>Файлы</button>
+        <button data-view="tasks"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Задачи<span class="soon">скоро</span></button>
+        <button data-view="server"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg>Сервер</button>
+        <button data-view="links"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg>Соединения</button>
+      </nav>
+      <div class="sdiv"></div>
+      <nav aria-label="Настройки">
+        <button data-view="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Настройки</button>
+        <button data-view="look"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18c1.7 0 2-1.2 1.4-2.2-.6-1 0-2.3 1.4-2.3H17a4 4 0 004-4c0-5-4-9.5-9-9.5zM7.5 11h.01M10 7.5h.01M14.5 7.5h.01"/></svg>Внешний вид</button>
+      </nav>
+      <button class="modepill" id="sideMode" data-mode="local" data-view="links" title="Режим работы"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span id="sideModeTxt">Локальный режим</span></button>
+    </aside>
+
+    <main class="stage">
+      <!-- ЧАТ -->
+      <section class="view" id="v-chat">
+        <div class="chead">
+          <h1>Добро пожаловать в NEXORA!</h1>
+          <p class="muted">Ваш локальный ИИ-помощник для анализа, кода, контента и автоматизации.</p>
+        </div>
+        <div class="quick" id="quick">
+          <button data-q="Напиши код: "><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>Написать код</button>
+          <button data-q="Разбери файл: "><svg viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6zM14 3v5h5M9 13h6M9 17h4"/></svg>Разобрать файл</button>
+          <button data-q="Создай контент: "><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Создать контент</button>
+          <button data-q="Автоматизируй: "><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Автоматизировать</button>
+          <button data-q="Проанализируй данные: "><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Анализ данных</button>
+        </div>
+        <div class="mbar">
+          <span class="mlabel"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg>Активная модель</span>
+          <span class="vsep"></span>
+          <span class="bot" id="bot"></span>
+          <span class="dot" id="dot"></span>
+          <select id="mpick" aria-label="Модель" title="Выбор модели"></select>
+          <span class="muted small" id="mstate">не запущена</span>
+          <span class="sp"></span>
+          <button class="btn" id="autoBtn" aria-pressed="false" title="Режим «Авто»: если основная модель не видит картинки, их читает отдельная модель с «зрением», потом возвращается основная. В памяти всегда одна модель, смена занимает десятки секунд.">Авто: выкл</button>
+          <span class="chip" id="chipSrc">Локально</span>
+          <span class="chip" id="chipMoe" hidden>MoE</span>
+          <button class="btn" id="catBtn" title="Каталог моделей">Каталог</button>
+          <button class="btn p" id="startBtn">Запустить</button>
+        </div>
+        <p class="muted small" id="autoNote" style="margin:4px 14px 0" hidden>Авто: основная модель отвечает сама; когда в сообщении есть картинка, а модель её не видит, на время подгружается модель с «зрением» (Gemma 3), затем возвращается основная. Смена занимает десятки секунд, в памяти одна модель.</p>
+        <div class="cpanel">
+          <div class="welcome" id="welcome">
+            <div class="bubble" id="bubble">Привет!<br>Чем займёмся сегодня?</div>
+            <div class="wbot" id="wBot"></div>
+          </div>
+          <div id="log" aria-live="polite"></div>
+          <div class="attachrow" id="attachRow" hidden></div>
+          <form id="form" class="input">
+            <button class="ibtn" type="button" id="attachBtn" aria-label="Прикрепить картинку" title="Прикрепить картинку (или вставьте Ctrl+V)"><svg viewBox="0 0 24 24"><path d="M21 11.5l-8.5 8.5a5 5 0 01-7-7l9-9a3.3 3.3 0 014.7 4.7l-9 9a1.7 1.7 0 01-2.4-2.4l8-8"/></svg></button>
+            <input type="file" id="fileIn" accept="image/*" multiple hidden>
+            <button class="ibtn" type="button" id="thinkBtn" aria-pressed="true" aria-label="Рассуждение"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></svg></button>
+            <button class="ibtn" type="button" id="webBtn" aria-pressed="false" aria-label="Веб-поиск"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg></button>
+            <textarea id="ask" rows="1" placeholder="Напишите задачу или задайте вопрос…" aria-label="Сообщение"></textarea>
+            <button class="ibtn" type="button" id="tuneBtn" aria-label="Параметры диалога" title="Права агента и новый чат"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
+            <button class="sendbtn" id="send" type="submit" disabled aria-label="Отправить"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-7z"/></svg></button>
+            <button class="btn" id="stop" type="button" hidden>Стоп</button>
+          </form>
+          <div class="tunebox" id="tuneBox" hidden>
+            <label for="roleSel">Роль агента (плагины)</label>
+            <select id="roleSel"><option value="">Без роли</option></select>
+            <label for="mode">Права агента</label>
+            <select id="mode">
+              <option value="ask_all">Спрашивать всё</option>
+              <option value="ask_changes">Спрашивать об изменениях и запуске</option>
+              <option value="trust">Доверять этой папке</option>
+            </select>
+            <div class="muted small" id="wsMini">Папка проекта не выбрана</div>
+            <div class="ra"><button class="btn" id="newChat" type="button">Новый чат</button><button class="btn" id="tuneProj" type="button" data-view="projects">Проекты…</button></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- МОДЕЛИ -->
+      <section class="view page" id="catalog" hidden>
+        <div class="phead"><h1>Модели</h1><p class="muted" id="catHw">Определяю железо…</p></div>
+        <div class="box" id="hfBox">
+          <h3>Поиск на Hugging Face</h3>
+          <form class="ra" id="hfForm"><input id="hfQ" type="text" placeholder="например: Qwen coder, Llama 3, Gemma" aria-label="Поиск моделей" spellcheck="false" style="flex:1;min-width:200px"><button class="btn p" type="submit">Найти</button></form>
+          <div id="hfRes"></div>
+        </div>
+        <div class="toolrow">
+          <div class="chips" id="catFilter" role="group" aria-label="Категория"></div>
+          <span class="sp"></span>
+          <label class="muted small" for="catSort">Сортировка</label>
+          <select id="catSort"><option value="quality">по качеству</option><option value="speed">по скорости</option><option value="size">по размеру</option></select>
+        </div>
+        <div id="catBody"></div>
+        <p class="muted small">Скорость и объём памяти это оценка по пропускной способности памяти, а не замер. Модели скачиваются с Hugging Face в папку данных Nexora и докачиваются после обрыва.</p>
+      </section>
+
+      <!-- ПЛАГИНЫ -->
+      <section class="view page" id="v-plugins" hidden>
+        <div class="phead"><h1>Плагины</h1><p class="muted">Скиллы (навыки), агенты (роли) и правила, которые расширяют возможности модели. Ставятся с GitHub, только текстовые файлы.</p></div>
+        <div class="box"><h3>Установлено</h3><div id="plList"></div></div>
+        <div class="box">
+          <h3>Установить с GitHub</h3>
+          <form class="ra" id="plForm"><input id="plSrc" type="text" placeholder="github.com/автор/репозиторий" aria-label="Адрес репозитория" spellcheck="false" style="flex:1;min-width:240px"><button class="btn p" type="submit">Проверить</button></form>
+          <div id="plPrev"></div>
+        </div>
+        <div class="box">
+          <h3>Найти на GitHub</h3>
+          <form class="ra" id="plSearchForm">
+            <input id="plQ" type="text" placeholder="например: pdf, тесты, git" aria-label="Поиск плагинов" spellcheck="false" style="flex:1;min-width:200px">
+            <select id="plTopic" aria-label="Тип"><option value="agent-skills">Скиллы</option><option value="claude-code">Claude Code</option><option value="">Любые</option></select>
+            <button class="btn" type="submit">Искать</button>
+          </form>
+          <div id="plRes"></div>
+        </div>
+        <div class="box">
+          <h3>Что это такое</h3>
+          <p class="muted small"><b>Скилл</b>: папка с файлом SKILL.md. Модель видит только название и описание и читает полный текст, когда задача подходит. <b>Агент</b>: файл .md с описанием роли, выбирается в параметрах чата. <b>Правила проекта</b>: файл LOCALCODER.md или AGENTS.md в папке проекта читается в начале каждого диалога.</p>
+          <p class="muted small">Безопасность: устанавливается точный коммит, обновления сами не приходят; скрипты (.py, .sh, .js, .ps1, .bat, .rb, .pl) ставятся только по вашей галочке, исполняемые файлы (.exe, .dll) не ставятся никогда. Скрипт выполняется с вашими правами и при первом запуске в сеансе спрашивает подтверждение. Тексты плагинов это инструкции для модели: ставьте то, чему доверяете. Без входа GitHub даёт около 60 запросов в час.</p>
+        </div>
+      </section>
+
+      <!-- ПРОЕКТЫ -->
+      <section class="view page" id="v-projects" hidden>
+        <div class="phead"><h1>Проекты</h1><p class="muted">Папка, с которой работает агент. Файлы за её пределами ему недоступны.</p></div>
+        <div class="box narrow">
+          <div class="ra"><button class="btn p" id="wsPick" title="Выбрать существующую папку в проводнике">Открыть папку…</button><button class="btn" id="wsNew" title="Создать новую пустую папку проекта">Новый проект</button></div>
+          <input id="wsPath" type="text" placeholder="Папка проекта не выбрана" aria-label="Папка проекта" spellcheck="false" readonly>
+          <label class="hostrow"><input type="checkbox" id="autoFolder"> Новый чат без папки создаёт для себя новую папку проекта</label>
+          <div class="ra"><span class="muted small" id="rootLbl"></span><span class="sp"></span><button class="btn" id="rootPick" title="Где создавать новые проекты">Изменить…</button></div>
+        </div>
+        <div class="box narrow" id="sshBox">
+          <h3>Проекты на серверах (SSH)</h3>
+          <p class="muted small">Агент работает прямо на сервере по SSH. Пароли и сами ключи программа не хранит: указывается путь к файлу ключа на этом компьютере. На боевом сервере любые изменения и неочевидные команды спрашиваются всегда, секреты в выводе скрываются.</p>
+          <div id="sshList"></div>
+          <div class="ra"><button class="btn" id="sshAdd">Добавить сервер…</button></div>
+          <div id="sshForm" hidden class="box" style="background:var(--panel2)">
+            <input id="sshLabel" type="text" placeholder="Название, например Мой сервер" aria-label="Название сервера" spellcheck="false">
+            <div class="ra"><input id="sshHost" type="text" placeholder="Адрес сервера" aria-label="Адрес сервера" spellcheck="false" style="flex:1;min-width:160px"><input id="sshPort" type="text" value="22" aria-label="Порт" style="width:80px"></div>
+            <input id="sshUser" type="text" placeholder="Пользователь" aria-label="Пользователь" spellcheck="false">
+            <input id="sshKey" type="text" placeholder="Путь к файлу ключа (можно оставить пустым)" aria-label="Файл ключа" spellcheck="false">
+            <input id="sshDir" type="text" placeholder="Папка проекта на сервере, например /opt/app" aria-label="Папка на сервере" spellcheck="false">
+            <label class="hostrow"><input type="checkbox" id="sshBattle" checked> Боевой сервер: любые изменения всегда спрашивать, даже в режиме «доверять»</label>
+            <div class="ra"><button class="btn p" id="sshSave">Сохранить</button><button class="btn" id="sshCancel">Отмена</button></div>
+          </div>
+          <p class="small" id="sshMsg" role="status"></p>
+        </div>
+      </section>
+
+      <!-- ФАЙЛЫ -->
+      <section class="view page" id="v-files" hidden>
+        <div class="phead"><h1>Файлы</h1><p class="muted">Содержимое папки проекта.</p></div>
+        <div class="box"><aside id="tree" class="tree" aria-label="Файлы проекта"><p class="muted pad">Откройте папку проекта</p></aside></div>
+      </section>
+
+      <!-- СОЕДИНЕНИЯ -->
+      <section class="view page" id="v-links" hidden>
+        <div class="phead"><h1>Соединения</h1><p class="muted">Где работает модель и как программа связана с сервером.</p></div>
+        <div class="box narrow">
+          <h3>Режим работы</h3>
+          <div class="mtabs" role="group" aria-label="Режим работы" id="profSeg"><button data-prof="local">Агент</button><button data-prof="agent">Сервер</button></div>
+          <div class="mcard">
+            <div class="mh"><span class="ico" id="mIco"></span><b id="mTitle"></b></div>
+            <p class="muted" id="mDesc"></p>
+            <div class="mdia" id="mDia"></div>
+            <p id="mCap"></p>
+          </div>
+          <label class="hostrow"><input type="checkbox" id="hostChk"> Этот компьютер сам является сервером (принимает подключения)</label>
+          <p class="muted small" id="profNote"></p>
+        </div>
+        <div class="box narrow">
+          <h3>Движок модели</h3>
+          <span class="seg" role="group" aria-label="Движок" id="srcSeg"><button data-src="builtin">Встроенный</button><button data-src="external">Внешний (LM Studio, Ollama)</button></span>
+          <div id="extBox" hidden>
+            <input id="extUrl" type="text" placeholder="http://127.0.0.1:11434" spellcheck="false" aria-label="Адрес движка">
+            <input id="extKey" type="password" placeholder="Ключ API (если нужен)" aria-label="Ключ API" autocomplete="off">
+            <div class="ra"><button class="btn" id="extFind">Найти на этом ПК</button><button class="btn p" id="extGo">Подключить</button></div>
+            <div id="extList"></div>
+            <p class="muted small" id="extNote"></p>
+          </div>
+        </div>
+        <div class="box narrow" id="agBox">
+          <h3>Подключение к серверу Nexora (этот ПК как клиент)</h3>
+          <p class="muted small">Подключите этот компьютер (например, ноутбук) к вашему серверу Nexora: модель работает на сервере, а файлы и команды остаются на этом ПК. Связь защищена: ключ создаётся здесь и никуда не передаётся, сервер проверяется по отпечатку.</p>
+          <div id="agConnected" hidden>
+            <p id="agConnText"></p>
+            <div class="ra"><button class="btn p" id="agConnect">Подключиться (использовать модель сервера)</button><button class="btn d" id="agForget">Забыть сервер</button></div>
+          </div>
+          <div id="agSetup">
+            <input id="agLink" type="text" placeholder="Строка подключения с экрана сервера: nexora://адрес:порт#отпечаток" aria-label="Строка подключения" spellcheck="false">
+            <div class="ra"><button class="btn" id="agFind">Найти в сети</button><button class="btn" id="agCheck">Проверить сервер</button></div>
+            <div id="agFound"></div>
+            <div id="agFp" class="small"></div>
+            <input id="agName" type="text" placeholder="Имя этого компьютера" aria-label="Имя этого компьютера" spellcheck="false">
+            <div class="ra"><input id="agCode" type="text" placeholder="Код из Authenticator (6 цифр)" aria-label="Код Authenticator" inputmode="numeric" maxlength="7" style="width:210px"><button class="btn p" id="agEnroll">Привязать кодом</button></div>
+            <p class="muted small">Для привязки кодом на сервере нужно нажать «Открыть окно привязки» (страница «Сервер»).</p>
+            <div class="ra"><button class="btn" id="agQr">Привязать по QR с телефона</button></div>
+            <div id="agQrBox" hidden class="box" style="background:var(--panel2)"></div>
+          </div>
+          <p class="small" id="agMsg" role="status"></p>
+        </div>
+      </section>
+
+      <!-- НАСТРОЙКИ -->
+      <section class="view page" id="v-settings" hidden>
+        <div class="phead"><h1>Настройки</h1></div>
+        <div class="box narrow">
+          <h3>Размер контекста (память под диалог)</h3>
+          <span class="seg" role="group" aria-label="Размер контекста" id="ctxSeg"><button data-ctxm="auto">Авто</button><button data-ctxm="manual">Вручную</button></span>
+          <div id="ctxManual" hidden>
+            <select id="ctxSel" aria-label="Размер контекста, токенов">
+              <option value="4096">4 096</option><option value="8192">8 192</option><option value="16384">16 384</option><option value="32768">32 768</option>
+              <option value="65536">65 536</option><option value="131072">131 072</option><option value="262144">262 144</option>
+            </select>
+          </div>
+          <p class="muted small" id="ctxNote"></p>
+        </div>
+        <div class="box narrow">
+          <h3>Картинки</h3>
+          <label class="hostrow"><input type="checkbox" id="autoChk"> Режим «Авто»: если основная модель не видит картинки, их читает отдельная модель с «зрением»</label>
+          <p class="muted small">В памяти всегда одна модель, поэтому смена занимает десятки секунд. Нужна скачанная модель Gemma 3 (каталог моделей, категория «Изображения»).</p>
+        </div>
+        <div class="box narrow">
+          <h3>Запуск и трей</h3>
+          <label class="hostrow"><input type="checkbox" id="dskTray"> Крестик сворачивает программу в трей (рядом с часами), а не закрывает её</label>
+          <label class="hostrow"><input type="checkbox" id="dskAuto"> Запускать вместе с Windows (свёрнутой в трей, модель загрузится сама)</label>
+          <label class="hostrow"><input type="checkbox" id="dskServer"> Сразу включать сервер для устройств при запуске программы</label>
+          <p class="muted small" id="dskNote"></p>
+          <p class="small" id="dskMsg" role="status"></p>
+        </div>
+        <div class="box narrow">
+          <h3>Обновления</h3>
+          <p class="muted small">Программа сама ничего не скачивает: вы нажимаете «Проверить», затем «Установить». Обновление принимается только с подписью издателя и только по https://; откат на старую версию запрещён.</p>
+          <p class="small" id="updVer"></p>
+          <input id="updUrl" type="text" placeholder="Адрес файла обновлений (https://…/latest.json)" aria-label="Адрес обновлений" spellcheck="false">
+          <div class="ra"><button class="btn" id="updSave">Сохранить адрес</button><button class="btn p" id="updCheck">Проверить обновления</button><button class="btn" id="updInstall" hidden>Установить</button></div>
+          <p class="small" id="updMsg" role="status"></p>
+        </div>
+        <div class="box narrow">
+          <h3>Серверы MCP (внешние инструменты)</h3>
+          <p class="muted small">MCP-сервер это отдельная программа с инструментами для агента (поиск в сети, базы данных, браузер и т.д.). Она запускается на этом компьютере с вашими правами, поэтому добавляйте только то, чему доверяете. Первый вызов каждого инструмента за сеанс спрашивает подтверждение. Ключи из env хранятся в зашифрованном хранилище и не показываются. Нужны Node (npx) или Python (uvx), смотря чем запускается сервер.</p>
+          <div id="mcpList"></div>
+          <textarea id="mcpText" rows="5" placeholder='Вставьте JSON из инструкции сервера, например: {"mcpServers": {"fetch": {"command": "uvx", "args": ["mcp-server-fetch"]}}}' aria-label="JSON сервера MCP" spellcheck="false" style="color:var(--fg);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;resize:vertical"></textarea>
+          <div class="ra"><button class="btn p" id="mcpAdd">Добавить</button></div>
+          <p class="small" id="mcpMsg" role="status"></p>
+        </div>
+        <div class="box narrow">
+          <h3>Память Nexora</h3>
+          <p class="muted small">Заметки, которые агент сохраняет сам (как личные заметки помощника): они показываются модели в начале нового диалога, общие и для текущего проекта. Секреты не принимаются. Лишнее можно удалить здесь.</p>
+          <div id="memList"></div>
+        </div>
+        <div class="box narrow">
+          <h3>Индикатор ожидания в чате</h3>
+          <span class="seg" role="group" aria-label="Индикатор ожидания" id="indSeg">
+            <button data-ind="robot">Робот</button><button data-ind="dots">Три точки</button><button data-ind="shimmer">Бегущий текст</button><button data-ind="plain">Просто текст</button>
+          </span>
+          <div class="typing" id="indPreview"><span class="rb"></span><span class="dots"><i></i><i></i><i></i></span><span class="stat">Думает…</span><span class="el">3 с</span></div>
+        </div>
+        <div class="box narrow">
+          <h3>Персонаж</h3>
+          <label class="hostrow"><input type="checkbox" id="botShow"> Показывать персонажа рядом с моделью</label>
+          <div class="prow">Размер</div>
+          <span class="seg" role="group" aria-label="Размер персонажа" id="botSizeSeg"><button data-bs="32">32</button><button data-bs="48">48</button><button data-bs="64">64</button><button data-bs="96">96</button></span>
+          <div class="prow">Анимации</div>
+          <span class="seg" role="group" aria-label="Анимации персонажа" id="botAnimSeg"><button data-ba="full">Полные</button><button data-ba="lite">Лёгкие</button><button data-ba="off">Выкл</button></span>
+          <p class="muted small">Лёгкие: только моргание и покачивание, подходит для слабого компьютера. Выкл: без движения. Анимации сами останавливаются, когда окно свёрнуто.</p>
+          <div class="botprev"><span id="botPrev"></span><div class="chips" id="botStates"></div></div>
+        </div>
+      </section>
+
+      <!-- ВНЕШНИЙ ВИД -->
+      <section class="view page" id="v-look" hidden>
+        <div class="phead"><h1>Внешний вид</h1><p class="muted">Тема, цвета, шрифт и скругление. Изменения применяются сразу.</p></div>
+        <div class="box narrow">
+          <h3>Тема</h3>
+          <span class="seg" role="group" aria-label="Тема" id="themes">
+            <button data-th="system">Как в системе</button><button data-th="light">Светлая</button><button data-th="dark">Тёмная</button><button data-th="aura">Aura</button><button data-th="custom">Custom</button>
+          </span>
+        </div>
+        <div class="box narrow"><h3>Своя тема (Custom)</h3><p class="muted small">Любое изменение включает тему Custom.</p><div id="custBox"></div></div>
+      </section>
+
+      <!-- СКОРО -->
+      <section class="view page" id="v-auto" hidden>
+        <div class="phead"><h1>Автоматизация</h1><p class="muted">Задачи по расписанию: агент сам выполняет их в проекте, который был выбран при создании, пока программа запущена и модель готова. Подтверждений нет: правки и команды в папке проекта он выполнит, а удаление и боевой сервер откажет сам.</p></div>
+        <div class="box narrow">
+          <h3>Задачи</h3>
+          <div id="taskList"></div>
+          <div class="ra"><button class="btn p" id="taskAdd">Новая задача…</button></div>
+          <div id="taskForm" hidden class="box" style="background:var(--panel2)">
+            <input id="taskName" type="text" placeholder="Название, например Проверка логов" aria-label="Название задачи" spellcheck="false">
+            <textarea id="taskPrompt" rows="4" placeholder="Что сделать, например: посмотри логи за сутки и напиши, что сломалось" aria-label="Описание задачи" style="color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;resize:vertical"></textarea>
+            <div class="ra">
+              <select id="taskKind" aria-label="Расписание"><option value="daily">Каждый день в</option><option value="every">Каждые N минут</option></select>
+              <input id="taskAt" type="text" value="09:00" aria-label="Время" style="width:90px">
+              <input id="taskEvery" type="text" value="60" aria-label="Минут" style="width:90px" hidden>
+            </div>
+            <p class="muted small" id="taskProj"></p>
+            <div class="ra"><button class="btn p" id="taskSave">Создать</button><button class="btn" id="taskCancel">Отмена</button></div>
+          </div>
+          <p class="small" id="taskMsg" role="status"></p>
+        </div>
+        <div class="box narrow" id="taskResBox" hidden><h3 id="taskResTitle"></h3><pre id="taskRes" style="white-space:pre-wrap;margin:0"></pre></div>
+      </section>
+
+      <section class="view page" id="v-server" hidden>
+        <div class="phead"><h1>Сервер для телефона</h1><p class="muted">Телефон (Nexora Agent) подключается к этому ПК, отправляет задачи и читает ответы. Модель и команды выполняются здесь. Доступ только по сертификату устройства и коду Google Authenticator; порт молчит для всех остальных.</p></div>
+        <div class="box narrow">
+          <h3 id="hostState">…</h3>
+          <div class="ra"><input id="hostBind" type="text" placeholder="Адрес прослушивания" aria-label="Адрес прослушивания" style="width:190px"><input id="hostPort" type="text" placeholder="Порт" aria-label="Порт" style="width:100px"></div>
+          <input id="hostNames" type="text" placeholder="Дополнительные имена/адреса сервера через запятую (необязательно)" aria-label="Дополнительные адреса" spellcheck="false">
+          <p class="muted small" id="hostLan"></p>
+          <p class="muted small">127.0.0.1: только этот ПК. Для доступа из домашней сети укажите адрес ПК в сети (или 0.0.0.0), для доступа извне используйте VPN (Tailscale или WireGuard) и укажите его адрес. Порт в интернет без VPN не открывайте.</p>
+          <div class="ra"><button class="btn p" id="hostToggle">Включить</button></div>
+          <p class="small" id="hostMsg" role="status"></p>
+        </div>
+        <div id="hostRun" hidden>
+          <div class="box narrow">
+            <h3>Привязка устройства</h3>
+            <p class="small" id="hostWin"></p>
+            <div class="ra"><button class="btn p" id="hostWinBtn">Открыть окно привязки</button><button class="btn" id="hostSetupBtn">Показать данные для привязки</button></div>
+            <div id="hostSetup" hidden class="box" style="background:var(--panel2)"></div>
+          </div>
+          <div class="box narrow">
+            <h3>Устройства</h3>
+            <div id="hostDevs"></div>
+          </div>
+          <div class="box narrow">
+            <h3>Что разрешено телефону</h3>
+            <label class="ra"><input type="checkbox" id="hostTools"> <span>Команды и файлы для телефона (выключено по умолчанию)</span></label>
+            <p class="muted small">Выключено: агент только отвечает на вопросы. Включено: агент работает в новой отдельной папке проекта, каждое изменение и команда требуют подтверждения на телефоне, а удаление, права администратора и боевой сервер дополнительно требуют свежий код Authenticator.</p>
+          </div>
+          <div class="box narrow">
+            <h3>Доступ из любой точки (мобильный интернет, другая сеть)</h3>
+            <p class="muted small">Самый простой и безопасный путь: установите бесплатный Tailscale (tailscale.com) на этот ПК и на телефон и войдите в один аккаунт. У ПК появится адрес вида 100.x.x.x, он работает из любой сети, в том числе по мобильному интернету и за провайдерским NAT. Порты на роутере открывать не нужно, сервер остаётся невидимым для интернета, а защита Nexora (сертификат устройства и код Authenticator) работает поверх.</p>
+            <label class="ra"><input type="checkbox" id="remVisible"> <span>Слушать и на адресе Tailscale (домашний адрес остаётся)</span></label>
+            <p class="small" id="remStatus" role="status"></p>
+            <div class="ra"><button class="btn" id="remShow">Показать адрес и QR для доступа из любой точки</button></div>
+            <div id="remInfo"></div>
+          </div>
+          <div class="box narrow">
+            <h3>Поиск в локальной сети</h3>
+            <label class="ra"><input type="checkbox" id="discVisible"> <span>Виден в локальной сети (телефон найдёт сервер сам, без ввода адреса)</span></label>
+            <p class="muted small">Объявляются только имя ПК, порт и короткий отпечаток, и только в частной сети (192.168.x.x, 10.x.x.x, 172.16-31.x.x). Найти сервер не значит войти: нужны сертификат устройства и код Authenticator. Выключено по умолчанию. Если Windows спросит про доступ к сети, разрешите для частной сети.</p>
+            <div class="ra"><button class="btn" id="discFind">Найти серверы в сети</button></div>
+            <div id="discList"></div>
+            <p class="small" id="discMsg" role="status"></p>
+          </div>
+          <div class="box narrow">
+            <h3>Журнал входов</h3>
+            <div id="hostLog"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view page" id="v-chats" hidden>
+        <div class="phead"><h1>Чаты</h1><p class="muted">Сохранённые разговоры. Откройте любой, чтобы продолжить с того же места: модель получит всю прежнюю переписку, а проект вернётся тот же, если он ещё доступен.</p></div>
+        <div class="box narrow">
+          <div class="ra"><button class="btn p" id="chatsNew">Новый чат</button></div>
+          <div id="chatsList"></div>
+          <p class="small" id="chatsMsg" role="status"></p>
+        </div>
+      </section>
+
+      <section class="view page" id="v-soon" hidden>
+        <div class="phead"><h1 id="soonTitle"></h1></div>
+        <div class="box narrow"><p id="soonText"></p><p class="muted small">Раздел в плане разработки, пока недоступен.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="statusbar">
+    <span class="sbi"><span class="dot" id="sbDot"></span><span id="sbReady">Не запущено</span></span>
+    <span class="sbs"></span>
+    <span class="sbi" id="sbModel">Модель: —</span>
+    <span class="sbs"></span>
+    <span class="sbi" id="sbMode">Режим: Агент (локально)</span>
+    <span class="sbs"></span>
+    <span class="sbi" id="sbMoe">MoE: —</span>
+    <span class="sp"></span>
+    <button class="sbbtn" id="sbAbout">О системе</button>
+  </footer>
+</div>
+
+<div class="modal" id="about" hidden>
+  <div class="mbox" role="dialog" aria-label="О системе">
+    <div class="mhead"><b>О системе</b><span class="sp"></span><button class="btn" id="aboutClose" aria-label="Закрыть">&#10005;</button></div>
+    <div id="aboutBody" class="muted"></div>
+  </div>
+</div>
+<script src="characters.js"></script>
+<script src="app.js"></script>
+<script src="host.js"></script>
+<script src="chats.js"></script>
+<script src="prefs.js"></script>
+<script src="agent.js"></script>
+<script src="updates.js"></script>
+<script src="desktop.js"></script>
+<script src="discover.js"></script>
+</body>
+</html>

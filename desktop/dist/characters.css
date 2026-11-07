@@ -1,0 +1,68 @@
+/* Nexora: персонажи-индикаторы. Только transform и opacity: нагрузка на процессор и видеокарту минимальна. */
+.nxc{position:relative;display:inline-block;flex:none;line-height:0}
+.nxc-in{position:relative;width:100%;height:100%;animation:nxcfloat 3.6s ease-in-out infinite}
+.nxc img{position:absolute;display:block;user-select:none;-webkit-user-drag:none}
+.nxc img.base{left:0;top:0;width:100%;height:100%}
+.nxc .face,.nxc .fx{position:absolute}
+.nxc .fx{left:0;top:0;width:100%;height:100%;pointer-events:none}
+.nxc .glow{position:absolute;border-radius:38%;opacity:0;pointer-events:none}
+.nxc .st{fill:none;stroke:var(--b);stroke-width:4.4;stroke-linecap:round;stroke-linejoin:round}
+.nxc .st.thin{stroke-width:2.6}
+.nxc .fl{fill:var(--b)}
+.nxc .st.errc{stroke:#ff5c7a}
+.nxc .st.dim{stroke:#8d88ad}
+.nxc .fl.dimf{fill:#8d88ad}
+.nxc .ring{stroke-dasharray:1.4 6.6;stroke-width:4.6}
+
+/* какое лицо показано */
+.nxc .f,.nxc .sparks{display:none}
+.nxc[data-state="idle"] .glyph{display:block}
+.nxc:not([data-state="idle"]) .glyph{display:none}
+.nxc[data-state="loading"] .f-loading,.nxc[data-state="thinking"] .f-thinking,.nxc[data-state="generating"] .f-generating,.nxc[data-state="coding"] .f-coding,
+.nxc[data-state="executing"] .f-executing,.nxc[data-state="success"] .f-success,.nxc[data-state="error"] .f-error,.nxc[data-state="offline"] .f-offline,
+.nxc[data-state="sleep"] .f-sleep{display:block}
+.nxc[data-state="success"] .sparks{display:block}
+.nxc[data-state="offline"] .nxc-in{filter:saturate(.3) brightness(.85)}
+
+/* движение корпуса и моргание */
+@keyframes nxcfloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3%) rotate(.8deg)}}
+.nxc .glyph{transform-origin:center;animation:nxcblink 5.2s infinite}
+@keyframes nxcblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.nxc[data-state="sleep"] .nxc-in,.nxc[data-state="error"] .nxc-in{animation:none}
+
+/* индикаторы на лице */
+.nxc .spin{transform-box:fill-box;transform-origin:center;animation:nxcspin 1.5s linear infinite}
+.nxc .spin.slow{animation-duration:3.2s}
+@keyframes nxcspin{to{transform:rotate(360deg)}}
+.nxc .eyes{animation:nxceyes 1.8s ease-in-out infinite alternate}
+@keyframes nxceyes{from{transform:translateX(-4px)}to{transform:translateX(4px)}}
+.nxc .dd{transform-box:fill-box;transform-origin:center;animation:nxcdot 1.2s infinite ease-in-out}
+.nxc .d2{animation-delay:.2s}.nxc .d3{animation-delay:.4s}
+@keyframes nxcdot{0%,80%,100%{opacity:.2;transform:scale(.7)}40%{opacity:1;transform:scale(1.2)}}
+.nxc .bar{transform-box:fill-box;transform-origin:center;animation:nxcbar 1s infinite ease-in-out}
+.nxc .b2{animation-delay:.12s}.nxc .b3{animation-delay:.24s}.nxc .b4{animation-delay:.36s}.nxc .b5{animation-delay:.48s}.nxc .b6{animation-delay:.6s}
+@keyframes nxcbar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(4.6)}}
+.nxc .cc{animation:nxccode 2.4s infinite}
+.nxc .c2{animation-delay:.35s}.nxc .c3{animation-delay:.7s}
+@keyframes nxccode{0%{opacity:0}18%,78%{opacity:1}100%{opacity:0}}
+.nxc .sp1,.nxc .sp2{transform-box:fill-box;transform-origin:center;animation:nxctw 1s infinite ease-in-out}
+.nxc .sp2{animation-delay:.3s}
+@keyframes nxctw{0%,100%{transform:scale(.5);opacity:.5}50%{transform:scale(1.15);opacity:1}}
+.nxc[data-state="error"] .glow{opacity:1;box-shadow:0 0 10px 2px #ff3b5c inset;animation:nxcerr 1.1s ease-in-out 2}
+@keyframes nxcerr{0%,100%{opacity:.15}50%{opacity:1}}
+.nxc[data-state="offline"] .f-offline{opacity:.85}
+
+/* режимы анимации: full (по умолчанию), lite (моргание и покачивание), off (статика) */
+.nx-anim-lite .nxc .face *,.nx-anim-lite .nxc .fx *,.nx-anim-lite .nxc .glow{animation:none!important}
+.nx-anim-off .nxc *,.nx-anim-off .nxc{animation:none!important}
+.nx-hidden .nxc *{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){.nxc *{animation:none!important}}
+
+/* индикатор режима работы: отдельно от персонажа */
+.modechip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--panel2);color:var(--muted)}
+.modechip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.modechip[data-mode="agent"]::before{background:var(--warn)}
+.modechip[data-mode="server"]::before{background:var(--ok)}
+.bot{display:inline-flex;align-items:center;min-width:0}
+.botprev{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+.botprev .chips button{font-size:11.5px;padding:3px 9px}

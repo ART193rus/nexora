@@ -1,0 +1,26 @@
+# сборки
+target*/
+build/
+.gradle/
+.kotlin/
+*.apk
+*.aab
+
+# секреты и локальные настройки
+keystore/
+keystore.properties
+local.properties
+*.jks
+*.keystore
+*.key
+*.pem
+!desktop/src/android_csr_fixture.pem
+.env*
+
+# движок llama.cpp и результаты самопроверок
+desktop/pack/engine/*
+!desktop/pack/engine/.gitkeep
+!desktop/pack/engine/README.md
+*_selftest.txt
+desktop/gen/
+.idea/

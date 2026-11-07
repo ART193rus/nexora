@@ -1,0 +1,251 @@
+[
+ {
+  "id": "qwen2.5-coder-1.5b",
+  "name": "Qwen2.5-Coder 1.5B",
+  "repo": "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF",
+  "file": "qwen2.5-coder-1.5b-instruct-q4_k_m.gguf",
+  "size_gb": 1.0,
+  "params_b": 1.5,
+  "active_b": 1.5,
+  "moe": false,
+  "layers": 28,
+  "kv_mb_per_1k": 14,
+  "quality": 2.0,
+  "notes": "Крошечная: подсказки по коду, для задач агента слабовата.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "qwen2.5-coder-3b",
+  "name": "Qwen2.5-Coder 3B",
+  "repo": "Qwen/Qwen2.5-Coder-3B-Instruct-GGUF",
+  "file": "qwen2.5-coder-3b-instruct-q4_k_m.gguf",
+  "size_gb": 2.0,
+  "params_b": 3.1,
+  "active_b": 3.1,
+  "moe": false,
+  "layers": 36,
+  "kv_mb_per_1k": 18,
+  "quality": 3.0,
+  "notes": "Маленькая и быстрая: только простые правки.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "qwen3-4b-2507",
+  "name": "Qwen3 4B Instruct 2507",
+  "repo": "unsloth/Qwen3-4B-Instruct-2507-GGUF",
+  "file": "Qwen3-4B-Instruct-2507-Q4_K_M.gguf",
+  "size_gb": 2.3,
+  "params_b": 4.0,
+  "active_b": 4.0,
+  "moe": false,
+  "layers": 36,
+  "kv_mb_per_1k": 72,
+  "quality": 4.5,
+  "notes": "Лучшая из крошечных для вызова инструментов.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "qwen2.5-coder-7b",
+  "name": "Qwen2.5-Coder 7B",
+  "repo": "Qwen/Qwen2.5-Coder-7B-Instruct-GGUF",
+  "file": "qwen2.5-coder-7b-instruct-q4_k_m.gguf",
+  "size_gb": 4.4,
+  "params_b": 7.6,
+  "active_b": 7.6,
+  "moe": false,
+  "layers": 28,
+  "kv_mb_per_1k": 28,
+  "quality": 5.0,
+  "notes": "Крепкий небольшой кодер.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "qwen2.5-coder-14b",
+  "name": "Qwen2.5-Coder 14B",
+  "repo": "Qwen/Qwen2.5-Coder-14B-Instruct-GGUF",
+  "file": "qwen2.5-coder-14b-instruct-q4_k_m.gguf",
+  "size_gb": 8.4,
+  "params_b": 14.8,
+  "active_b": 14.8,
+  "moe": false,
+  "layers": 48,
+  "kv_mb_per_1k": 96,
+  "quality": 6.5,
+  "notes": "Плотная модель: без видеокарты или быстрой памяти будет медленной.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "gpt-oss-20b",
+  "name": "gpt-oss 20B (MoE)",
+  "repo": "ggml-org/gpt-oss-20b-GGUF",
+  "file": "gpt-oss-20b-MXFP4.gguf",
+  "size_gb": 11.3,
+  "params_b": 21.0,
+  "active_b": 3.6,
+  "moe": true,
+  "layers": 24,
+  "kv_mb_per_1k": 12,
+  "quality": 7.0,
+  "notes": "MoE, активно 3.6B. Хорошие рассуждения и работа с инструментами.",
+  "family": "openai",
+  "mmproj": "",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "qwen3-coder-30b-a3b",
+  "name": "Qwen3-Coder 30B-A3B (MoE)",
+  "repo": "unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF",
+  "file": "Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+  "size_gb": 17.3,
+  "params_b": 30.5,
+  "active_b": 3.3,
+  "moe": true,
+  "layers": 48,
+  "kv_mb_per_1k": 48,
+  "quality": 8.0,
+  "notes": "Лучший кодер, который ещё идёт на процессоре: MoE, активно 3.3B.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "qwen2.5-coder-32b",
+  "name": "Qwen2.5-Coder 32B",
+  "repo": "Qwen/Qwen2.5-Coder-32B-Instruct-GGUF",
+  "file": "qwen2.5-coder-32b-instruct-q4_k_m.gguf",
+  "size_gb": 18.5,
+  "params_b": 32.8,
+  "active_b": 32.8,
+  "moe": false,
+  "layers": 64,
+  "kv_mb_per_1k": 128,
+  "quality": 7.5,
+  "notes": "Плотная и сильная, но быстрой её делает только мощная видеокарта.",
+  "family": "qwen",
+  "mmproj": "",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "gpt-oss-120b",
+  "name": "gpt-oss 120B (MoE)",
+  "repo": "ggml-org/gpt-oss-120b-GGUF",
+  "file": "gpt-oss-120b-MXFP4.gguf",
+  "size_gb": 59.0,
+  "params_b": 117.0,
+  "active_b": 5.1,
+  "moe": true,
+  "layers": 36,
+  "kv_mb_per_1k": 36,
+  "quality": 9.0,
+  "notes": "Нужно около 64+ ГБ ОЗУ; MoE делает её пригодной даже на процессоре.",
+  "family": "openai",
+  "mmproj": "",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "deepseek-coder-v2-lite",
+  "name": "DeepSeek-Coder-V2-Lite (MoE)",
+  "repo": "bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF",
+  "file": "DeepSeek-Coder-V2-Lite-Instruct-Q4_K_M.gguf",
+  "size_gb": 10.4,
+  "params_b": 15.7,
+  "active_b": 2.4,
+  "moe": true,
+  "layers": 27,
+  "kv_mb_per_1k": 40,
+  "quality": 6.5,
+  "family": "deepseek",
+  "mmproj": "",
+  "notes": "Код и разработка. MoE: быстрый на процессоре, но слабее Qwen3-Coder.",
+  "tags": [
+   "code"
+  ]
+ },
+ {
+  "id": "llama-3.1-8b",
+  "name": "Llama 3.1 8B Instruct",
+  "repo": "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF",
+  "file": "Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+  "size_gb": 4.9,
+  "params_b": 8.0,
+  "active_b": 8.0,
+  "moe": false,
+  "layers": 32,
+  "kv_mb_per_1k": 64,
+  "quality": 5.0,
+  "family": "llama",
+  "mmproj": "",
+  "notes": "Анализ и рассуждения общего назначения; для кода слабее Qwen.",
+  "tags": [
+   "chat"
+  ]
+ },
+ {
+  "id": "gemma-3-4b",
+  "name": "Gemma 3 4B (понимает картинки)",
+  "repo": "unsloth/gemma-3-4b-it-GGUF",
+  "file": "gemma-3-4b-it-Q4_K_M.gguf",
+  "size_gb": 2.5,
+  "params_b": 4.3,
+  "active_b": 4.3,
+  "moe": false,
+  "layers": 34,
+  "kv_mb_per_1k": 40,
+  "quality": 4.0,
+  "family": "gemma",
+  "mmproj": "mmproj-F16.gguf",
+  "notes": "Лёгкая и быстрая. Умеет читать картинки (вместе с моделью скачивается файл mmproj, 0.85 ГБ).",
+  "tags": [
+   "chat",
+   "vision"
+  ]
+ },
+ {
+  "id": "gemma-3-12b",
+  "name": "Gemma 3 12B (понимает картинки)",
+  "repo": "unsloth/gemma-3-12b-it-GGUF",
+  "file": "gemma-3-12b-it-Q4_K_M.gguf",
+  "size_gb": 7.3,
+  "params_b": 12.2,
+  "active_b": 12.2,
+  "moe": false,
+  "layers": 48,
+  "kv_mb_per_1k": 100,
+  "quality": 5.5,
+  "family": "gemma",
+  "mmproj": "mmproj-F16.gguf",
+  "notes": "Заметно умнее 4B, читает картинки. На процессоре медленная (плотная модель).",
+  "tags": [
+   "chat",
+   "vision"
+  ]
+ }
+]
